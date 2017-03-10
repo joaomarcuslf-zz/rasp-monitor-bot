@@ -9,6 +9,8 @@ Small Telegram Bot to monitor my Raspberry Pi
   $ lein run
 ```
 
+## Bot username:
+**@RaspMonitorBot**
 
 ## License
 
