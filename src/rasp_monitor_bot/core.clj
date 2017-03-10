@@ -53,13 +53,13 @@
       (println (get chat :first_name) " asked for the project link in: " chat)
       (t/send-text token id (str "This is my project repo: " project-url))
       (t/send-text token id "Please, give me some stars if you liked")
-      (t/send-text token id "Fell free to fork this project or send any PR"))))
+      (t/send-text token id "Fell free to fork this project or send any PR")))
 
   (h/message-fn
-    (fn [{{id :id} :chat :as chat}]
-      (println (get chat :first_name) " asked me something I can't do in: " chat)
+    (fn [{{id :id} :chat :as message}]
+      (println (get message :first_name) " asked me something I can't do in: " message)
       (t/send-text token id "Sorry, I can't do that!")
-      (t/send-text token id "Type /help to see the avaiable commands")))
+      (t/send-text token id "Type /help to see the avaiable commands"))))
 
 
 (defn -main
