@@ -12,6 +12,11 @@ Small Telegram Bot to monitor my Raspberry Pi
 ## Bot username:
 **@RaspMonitorBot**
 
+
+## Depencencies
+
+- [lein](https://leiningen.org/)
+
 ## License
 
 Copyright © 2017 FIXME
