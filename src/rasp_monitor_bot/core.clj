@@ -35,12 +35,18 @@
       (println (get chat :first_name) " asked for my help in: " chat)
       (t/send-text token id "/help - Will show the bot commands")
       (t/send-text token id "/hello - Will make the bot talk with you")
+      (t/send-text token id "/version - Will the bot version")
       (t/send-text token id "/repo - Will show the project link")))
 
   (h/command-fn "hello"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) " greeted me in: " chat)
       (t/send-text token id (hello-user chat))))
+
+  (h/command-fn "version"
+    (fn [{{id :id :as chat} :chat}]
+      (println (get chat :first_name) " asked for my version in: " chat)
+      (t/send-text token id (str "My version is: " robot-version))))
 
   (h/command-fn "repo"
     (fn [{{id :id :as chat} :chat}]
@@ -53,7 +59,7 @@
     (fn [{{id :id} :chat :as chat}]
       (println (get chat :first_name) " asked me something I can't do in: " chat)
       (t/send-text token id "Sorry, I can't do that!")
-      (t/send-text token id "Type /help to see the avaiable commands"))))
+      (t/send-text token id "Type /help to see the avaiable commands")))
 
 
 (defn -main
