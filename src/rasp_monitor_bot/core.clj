@@ -91,7 +91,7 @@
   (handler/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
-      (api/send-text token id (str/join (format-help avaiable-commands) "\n"))))
+      (api/send-text token id (str/join "\n" (format-help avaiable-commands)))))
 
   ;; Will greet the user
   (handler/command-fn "hello"
