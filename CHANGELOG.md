@@ -3,6 +3,7 @@
 ## 1.0.0 - ON GOING
 ### Added
 - /howru option with gif
+- tests, tests, tests
 
 ## 0.2.0 - 2017-03-11
 ### Changed
