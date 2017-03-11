@@ -3,32 +3,13 @@
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [environ.core :refer [env]]
             [morse.handlers :as handler]
             [morse.polling :as p]
             [morse.api :as api]
             [clojure.java.shell :refer [sh]]
-            [rasp-monitor-bot.formatters :as formatters])
+            [rasp-monitor-bot.formatters :as formatters]
+            [rasp-monitor-bot.configs :as configs])
   (:gen-class))
-
-
-(def token (env :telegram-token))
-
-(def robot-version (str (env :rasp-monitor-bot-version)))
-
-(def owner (str (env :owner-username)))
-
-(def project-url "https://github.com/joaomarcuslf/rasp-monitor-bot")
-
-(def avaiable-commands
-  [
-    {:name "/help",      :description "Will show the bot commands"}
-    {:name "/hello",     :description "Will make the bot talk with you"}
-    {:name "/version",   :description "Will the bot version"}
-    {:name "/repo",      :description "Will show the project link"}
-    {:name "/changelog", :description "Will send a changelog file"}
-    {:name "/temp",      :description "Will show the actual raspberry temperature"}
-  ])
 
 ;; Will greet the user
 (defn hello-user
@@ -59,41 +40,41 @@
   (handler/command-fn "start"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "started a new chat in:" chat)
-      (api/send-text token id (hello-user chat))
-      (api/send-text token id (str "Welcome to rasp-monitor-bot " robot-version "!"))
-      (api/send-text token id "Type /help to see the avaiable commands")))
+      (api/send-text configs/token id (hello-user chat))
+      (api/send-text configs/token id (str "Welcome to rasp-monitor-bot " configs/robot-version "!"))
+      (api/send-text configs/token id "Type /help to see the avaiable commands")))
 
   ;; Will send the avaiable commands
   (handler/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
-      (api/send-text token id (str/join "\n" (formatters/format-help avaiable-commands)))))
+      (api/send-text configs/token id (str/join "\n" (formatters/format-help configs/avaiable-commands)))))
 
   ;; Will greet the user
   (handler/command-fn "hello"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "greeted me in:" chat)
-      (api/send-text token id (hello-user chat))))
+      (api/send-text configs/token id (hello-user chat))))
 
   ;; Will send the project version
   (handler/command-fn "version"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my version in:" chat)
-      (api/send-text token id (str "My version is: " robot-version))))
+      (api/send-text configs/token id (str "My version is: " configs/robot-version))))
 
   ;; Will send the repo url
   (handler/command-fn "repo"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for the project link in:" chat)
-      (api/send-text token id (str "This is my project repo: " project-url))
-      (api/send-text token id "Please, give me some stars if you liked")
-      (api/send-text token id "Fell free to fork this project or send any PR")))
+      (api/send-text configs/token id (str "This is my project repo: " configs/project-url))
+      (api/send-text configs/token id "Please, give me some stars if you liked")
+      (api/send-text configs/token id "Fell free to fork this project or send any PR")))
 
   ;; Will send the repo changelog
   (handler/command-fn "changelog"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for the project changelog in:" chat)
-      (api/send-document token id (io/file "CHANGELOG.md"))))
+      (api/send-document configs/token id (io/file "CHANGELOG.md"))))
 
   ;; Will run shell commands if user is valid
   (handler/command-fn "command"
@@ -105,8 +86,8 @@
       (def id (get chat :id))
       (println (get chat :first_name) "gave me a command in:" chat)
 
-      (api/send-text token id
-        (if (= username owner)
+      (api/send-text configs/token id
+        (if (= username configs/owner)
           (str (formatters/format-output (sh (formatters/format-command message))))
           ;; Logical False
           "You don't own me\nI'm not just one of your many toys"))))
@@ -115,24 +96,24 @@
   (handler/command-fn "temp"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my temp in:" chat)
-      (api/send-text token id (temp-to-celsius (get-temp)))))
+      (api/send-text configs/token id (temp-to-celsius (get-temp)))))
 
   ;; Not found command
   (handler/message-fn
     (fn [{{id :id} :chat :as message}]
       (println (get message :first_name) "asked me something I can't do in:" message)
-      (api/send-text token id "Sorry, I can't do that!")
-      (api/send-text token id "Type /help to see the avaiable commands"))))
+      (api/send-text configs/token id "Sorry, I can't do that!")
+      (api/send-text configs/token id "Type /help to see the avaiable commands"))))
 
 
 (defn -main
   [& args]
-  (when (str/blank? token)
-    (println "Please provde token in TELEGRAM_TOKEN environment variable!")
+  (when (str/blank? configs/token)
+    (println "Please provde configs/token in TELEGRAM_configs/token environment variable!")
     (System/exit 1))
-  (when (str/blank? owner)
-    (println "Please provde token in OWNER_USERNAME environment variable!")
+  (when (str/blank? configs/owner)
+    (println "Please provde configs/token in OWNER_USERNAME environment variable!")
     (System/exit 1))
 
   (println "Starting the rasp-monitor-bot")
-  (<!! (p/start token handler)))
+  (<!! (p/start configs/token handler)))
