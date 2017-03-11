@@ -23,20 +23,25 @@
   [chat]
   (str "Hello " (get chat :first_name)))
 
+;; Will remove from the message-command
+;; sudo reference
+;; /command
 (defn format-command
   [raw-command]
   (str/replace (str/replace raw-command #"/command " "") "sudo " ""))
 
+;; Will format command outpu
+;; giving precedence to :out ove :err
 (defn format-output
   [command-output]
   (def out (get command-output :out))
   (def err (get command-output :err))
-
   (or out err))
 
 
 (h/defhandler handler
 
+  ;; Will start  the chat
   (h/command-fn "start"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "started a new chat in:" chat)
@@ -44,6 +49,7 @@
       (t/send-text token id (str "Welcome to rasp-monitor-bot " robot-version "!"))
       (t/send-text token id "Type /help to see the avaiable commands")))
 
+  ;; Will send the avaiable commands
   (h/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
@@ -52,16 +58,19 @@
       (t/send-text token id "/version - Will the bot version")
       (t/send-text token id "/repo - Will show the project link")))
 
+  ;; Will greet the user
   (h/command-fn "hello"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "greeted me in:" chat)
       (t/send-text token id (hello-user chat))))
 
+  ;; Will send the project version
   (h/command-fn "version"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my version in:" chat)
       (t/send-text token id (str "My version is: " robot-version))))
 
+  ;; Will send the repo url
   (h/command-fn "repo"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for the project link in:" chat)
@@ -70,6 +79,7 @@
       (t/send-text token id "Fell free to fork this project or send any PR")))
 
 
+  ;; Will run shell commands if user is valid
   (h/command-fn "command"
     (fn [msg]
       (prn msg)
@@ -85,6 +95,7 @@
           ;; Logical False
           "You don't own me\nI'm not just one of your many toys"))))
 
+  ;; Not found command
   (h/message-fn
     (fn [{{id :id} :chat :as message}]
       (println (get message :first_name) "asked me something I can't do in:" message)
