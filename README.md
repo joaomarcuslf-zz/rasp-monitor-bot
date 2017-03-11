@@ -9,6 +9,17 @@ Small Telegram Bot to monitor my Raspberry Pi
   $ lein run
 ```
 
+## REPL
+
+```
+  $ lein repl
+
+  (defn my-service [] (-main))
+
+
+  (my-service)
+```
+
 ## Bot username:
 **@RaspMonitorBot**
 
