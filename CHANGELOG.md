@@ -4,6 +4,7 @@
 ### Added
 - /command command with username validator
 - /changelog command
+- /temp command
 ### Changed
 - Refactor morse modules names
 
