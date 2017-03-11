@@ -19,9 +19,30 @@
 
 (def project-url "https://github.com/joaomarcuslf/rasp-monitor-bot")
 
+(def avaiable-commands
+  [
+    {:name "/help",      :description "Will show the bot commands"}
+    {:name "/hello",     :description "Will make the bot talk with you"}
+    {:name "/version",   :description "Will the bot version"}
+    {:name "/repo",      :description "Will show the project link"}
+    {:name "/changelog", :description "Will send a changelog file"}
+    {:name "/temp",      :description "Will show the actual raspberry temperature"}
+  ])
+
+;; Will greet the user
 (defn hello-user
   [chat]
   (str "Hello " (get chat :first_name)))
+
+;; Will format the help command
+(defn format-help
+  [help]
+  (map
+    (fn
+      [command]
+      (str (get command :name) " - " (get command :description)))
+    help))
+
 
 ;; Will remove from the message-command
 ;; sudo reference
@@ -53,6 +74,9 @@
   [temp]
   (str temp "ºC"))
 
+
+;; Handlers
+
 (handler/defhandler handler
 
   ;; Will start  the chat
@@ -67,10 +91,7 @@
   (handler/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
-      (api/send-text token id "/help - Will show the bot commands")
-      (api/send-text token id "/hello - Will make the bot talk with you")
-      (api/send-text token id "/version - Will the bot version")
-      (api/send-text token id "/repo - Will show the project link")))
+      (api/send-text token id (str/join (format-help avaiable-commands) "\n"))))
 
   ;; Will greet the user
   (handler/command-fn "hello"
