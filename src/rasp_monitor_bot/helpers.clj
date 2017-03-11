@@ -33,4 +33,4 @@
 		"hot-gif.gif"
 		(if (< temp 50)
 			"cold-gif.gif"
-			"coll-gif.gif")))
+			"cool-gif.gif")))
