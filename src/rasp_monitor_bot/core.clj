@@ -7,7 +7,8 @@
             [morse.handlers :as handler]
             [morse.polling :as p]
             [morse.api :as api]
-            [clojure.java.shell :refer [sh]])
+            [clojure.java.shell :refer [sh]]
+            [rasp-monitor-bot.formatters :as formatters])
   (:gen-class))
 
 
@@ -33,31 +34,6 @@
 (defn hello-user
   [chat]
   (str "Hello " (get chat :first_name)))
-
-;; Will format the help command
-(defn format-help
-  [help]
-  (map
-    (fn
-      [command]
-      (str (get command :name) " - " (get command :description)))
-    help))
-
-
-;; Will remove from the message-command
-;; sudo reference
-;; /command
-(defn format-command
-  [raw-command]
-  (str/replace (str/replace raw-command #"/command " "") "sudo " ""))
-
-;; Will format command outpu
-;; giving precedence to :out ove :err
-(defn format-output
-  [command-output]
-  (def out (get command-output :out))
-  (def err (get command-output :err))
-  (or out err))
 
 ;; Format a string to number
 (defn parse-int
@@ -91,7 +67,7 @@
   (handler/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
-      (api/send-text token id (str/join "\n" (format-help avaiable-commands)))))
+      (api/send-text token id (str/join "\n" (formatters/format-help avaiable-commands)))))
 
   ;; Will greet the user
   (handler/command-fn "hello"
@@ -131,7 +107,7 @@
 
       (api/send-text token id
         (if (= username owner)
-          (str (format-output (sh (format-command message))))
+          (str (formatters/format-output (sh (formatters/format-command message))))
           ;; Logical False
           "You don't own me\nI'm not just one of your many toys"))))
 
