@@ -4,9 +4,9 @@
             [clojure.java.io :as io]
             [clojure.string :as str]
             [environ.core :refer [env]]
-            [morse.handlers :as h]
+            [morse.handlers :as handler]
             [morse.polling :as p]
-            [morse.api :as t]
+            [morse.api :as api]
             [clojure.java.shell :refer [sh]])
   (:gen-class))
 
@@ -39,48 +39,47 @@
   (or out err))
 
 
-(h/defhandler handler
+(handler/defhandler handler
 
   ;; Will start  the chat
-  (h/command-fn "start"
+  (handler/command-fn "start"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "started a new chat in:" chat)
-      (t/send-text token id (hello-user chat))
-      (t/send-text token id (str "Welcome to rasp-monitor-bot " robot-version "!"))
-      (t/send-text token id "Type /help to see the avaiable commands")))
+      (api/send-text token id (hello-user chat))
+      (api/send-text token id (str "Welcome to rasp-monitor-bot " robot-version "!"))
+      (api/send-text token id "Type /help to see the avaiable commands")))
 
   ;; Will send the avaiable commands
-  (h/command-fn "help"
+  (handler/command-fn "help"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my help in:" chat)
-      (t/send-text token id "/help - Will show the bot commands")
-      (t/send-text token id "/hello - Will make the bot talk with you")
-      (t/send-text token id "/version - Will the bot version")
-      (t/send-text token id "/repo - Will show the project link")))
+      (api/send-text token id "/help - Will show the bot commands")
+      (api/send-text token id "/hello - Will make the bot talk with you")
+      (api/send-text token id "/version - Will the bot version")
+      (api/send-text token id "/repo - Will show the project link")))
 
   ;; Will greet the user
-  (h/command-fn "hello"
+  (handler/command-fn "hello"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "greeted me in:" chat)
-      (t/send-text token id (hello-user chat))))
+      (api/send-text token id (hello-user chat))))
 
   ;; Will send the project version
-  (h/command-fn "version"
+  (handler/command-fn "version"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my version in:" chat)
-      (t/send-text token id (str "My version is: " robot-version))))
+      (api/send-text token id (str "My version is: " robot-version))))
 
   ;; Will send the repo url
-  (h/command-fn "repo"
+  (handler/command-fn "repo"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for the project link in:" chat)
-      (t/send-text token id (str "This is my project repo: " project-url))
-      (t/send-text token id "Please, give me some stars if you liked")
-      (t/send-text token id "Fell free to fork this project or send any PR")))
-
+      (api/send-text token id (str "This is my project repo: " project-url))
+      (api/send-text token id "Please, give me some stars if you liked")
+      (api/send-text token id "Fell free to fork this project or send any PR")))
 
   ;; Will run shell commands if user is valid
-  (h/command-fn "command"
+  (handler/command-fn "command"
     (fn [msg]
       (prn msg)
       (def chat (get msg :chat))
@@ -89,18 +88,18 @@
       (def id (get chat :id))
       (println (get chat :first_name) "gave me a command in:" chat)
 
-      (t/send-text token id
+      (api/send-text token id
         (if (= username owner)
           (str (format-output (sh (format-command message))))
           ;; Logical False
           "You don't own me\nI'm not just one of your many toys"))))
 
   ;; Not found command
-  (h/message-fn
+  (handler/message-fn
     (fn [{{id :id} :chat :as message}]
       (println (get message :first_name) "asked me something I can't do in:" message)
-      (t/send-text token id "Sorry, I can't do that!")
-      (t/send-text token id "Type /help to see the avaiable commands"))))
+      (api/send-text token id "Sorry, I can't do that!")
+      (api/send-text token id "Type /help to see the avaiable commands"))))
 
 
 (defn -main
