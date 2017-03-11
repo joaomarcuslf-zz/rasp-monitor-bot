@@ -7,6 +7,7 @@
 - /temp command
 ### Changed
 - Refactor morse modules names
+- Refactor help commands
 
 ## 0.1.0-SNAPSHOT - 2017-03-11
 ### Added
