@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.5 - ON GOING
+## 0.1.5 - 2017-03-11
 ### Added
 - /command command with username validator
 - /changelog command
