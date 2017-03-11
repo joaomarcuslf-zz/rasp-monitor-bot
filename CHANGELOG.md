@@ -1,6 +1,10 @@
 # Change Log
 
-## 1.0.0 - ON GOING
+## 1.0.2 - ON GOING
+### Added
+- Fix no output on /command
+
+## 1.0.0 - 2017-03-11
 ### Added
 - /howru option with gif
 - tests, tests, tests
@@ -26,6 +30,7 @@
 
 ## 0.1.0-SNAPSHOT - 2017-03-11
 ### Added
+- Added repl capabilities
 - Not-found command
 - /repo command
 - /version command

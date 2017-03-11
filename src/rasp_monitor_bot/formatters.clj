@@ -24,4 +24,4 @@
   [command-output]
   (def out (get command-output :out))
   (def err (get command-output :err))
-  (or out err))
+  (or out err "No output"))
