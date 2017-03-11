@@ -8,29 +8,9 @@
             [morse.api :as api]
             [clojure.java.shell :refer [sh]]
             [rasp-monitor-bot.formatters :as formatters]
-            [rasp-monitor-bot.configs :as configs])
+            [rasp-monitor-bot.configs :as configs]
+            [rasp-monitor-bot.helpers :as helpers])
   (:gen-class))
-
-;; Will greet the user
-(defn hello-user
-  [chat]
-  (str "Hello " (get chat :first_name)))
-
-;; Format a string to number
-(defn parse-int
-  [s]
-  (Integer. (re-find  #"\d+" s )))
-
-;; Will give the raspberry temp as integer
-(defn get-temp
-  []
-  (float (/ (parse-int (slurp (io/file "/sys/class/thermal/thermal_zone0/temp"))) 1000)))
-
-;; Will format temp in celsius
-(defn temp-to-celsius
-  [temp]
-  (str temp "ºC"))
-
 
 ;; Handlers
 
@@ -40,7 +20,7 @@
   (handler/command-fn "start"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "started a new chat in:" chat)
-      (api/send-text configs/token id (hello-user chat))
+      (api/send-text configs/token id (helpers/hello-user chat))
       (api/send-text configs/token id (str "Welcome to rasp-monitor-bot " configs/robot-version "!"))
       (api/send-text configs/token id "Type /help to see the avaiable commands")))
 
@@ -54,7 +34,7 @@
   (handler/command-fn "hello"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "greeted me in:" chat)
-      (api/send-text configs/token id (hello-user chat))))
+      (api/send-text configs/token id (helpers/hello-user chat))))
 
   ;; Will send the project version
   (handler/command-fn "version"
@@ -96,7 +76,7 @@
   (handler/command-fn "temp"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my temp in:" chat)
-      (api/send-text configs/token id (temp-to-celsius (get-temp)))))
+      (api/send-text configs/token id (helpers/temp-to-celsius (helpers/get-temp)))))
 
   ;; Not found command
   (handler/message-fn
