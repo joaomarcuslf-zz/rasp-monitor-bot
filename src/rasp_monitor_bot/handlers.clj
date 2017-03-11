@@ -77,6 +77,15 @@
       (println (get chat :first_name) "asked for my temp in:" chat)
       (api/send-text configs/token id (helpers/temp-to-celsius (helpers/get-temp)))))
 
+	;; Will send a gif based on temp
+  (handler/command-fn "howru"
+    (fn [{{id :id :as chat} :chat}]
+      (println (get chat :first_name) "asked for how am I in:" chat)
+
+			(def gif (helpers/gif-from-temp))
+
+      (api/send-document configs/token id (io/file (str "resources/gifs/" gif)))))
+
   ;; Not found command
   (handler/message-fn
     (fn [{{id :id} :chat :as message}]

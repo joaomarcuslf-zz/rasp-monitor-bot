@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0 - ON GOING
+### Added
+- /howru option with gif
+
 ## 0.2.0 - 2017-03-11
 ### Changed
 - Split core.clj into:

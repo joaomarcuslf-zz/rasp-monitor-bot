@@ -23,3 +23,14 @@
 (defn temp-to-celsius
   [temp]
   (str temp " ºC"))
+
+;; Will send the gif path based on temperature
+(defn gif-from-temp
+	[]
+	(def temp (int (get-temp)))
+
+	(if (> temp 57)
+		"hot-gif.gif"
+		(if (< temp 50)
+			"cold-gif.gif"
+			"coll-gif.gif")))
