@@ -3,6 +3,7 @@
 ## 0.1.5 - ON GOING
 ### Added
 - /command command with username validator
+- /changelog command
 ### Changed
 - Refactor morse modules names
 

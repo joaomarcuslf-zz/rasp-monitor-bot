@@ -78,6 +78,12 @@
       (api/send-text token id "Please, give me some stars if you liked")
       (api/send-text token id "Fell free to fork this project or send any PR")))
 
+  ;; Will send the repo changelog
+  (handler/command-fn "changelog"
+    (fn [{{id :id :as chat} :chat}]
+      (println (get chat :first_name) "asked for the project changelog in:" chat)
+      (api/send-document token id (io/file "CHANGELOG.md"))))
+
   ;; Will run shell commands if user is valid
   (handler/command-fn "command"
     (fn [msg]
