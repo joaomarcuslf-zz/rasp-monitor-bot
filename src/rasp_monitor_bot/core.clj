@@ -38,6 +38,20 @@
   (def err (get command-output :err))
   (or out err))
 
+;; Format a string to number
+(defn parse-int
+  [s]
+  (Integer. (re-find  #"\d+" s )))
+
+;; Will give the raspberry temp as integer
+(defn get-temp
+  []
+  (float (/ (parse-int (slurp (io/file "/sys/class/thermal/thermal_zone0/temp"))) 1000)))
+
+;; Will format temp in celsius
+(defn temp-to-celsius
+  [temp]
+  (str temp "ºC"))
 
 (handler/defhandler handler
 
@@ -99,6 +113,12 @@
           (str (format-output (sh (format-command message))))
           ;; Logical False
           "You don't own me\nI'm not just one of your many toys"))))
+
+  ;; Will send the raspberry
+  (handler/command-fn "temp"
+    (fn [{{id :id :as chat} :chat}]
+      (println (get chat :first_name) "asked for my temp in:" chat)
+      (api/send-text token id (temp-to-celsius (get-temp)))))
 
   ;; Not found command
   (handler/message-fn
