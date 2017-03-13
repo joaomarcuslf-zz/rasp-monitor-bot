@@ -24,8 +24,6 @@
   [command-output]
   (def out (get command-output :out))
   (def err (get command-output :err))
-  (prn "Out:" out)
-  (prn "Err:" err)
   (if (not (str/blank? out))
     out
     (if (not (str/blank? err))
