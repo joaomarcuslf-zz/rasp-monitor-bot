@@ -6,6 +6,7 @@ Small Telegram Bot to monitor my Raspberry Pi
 
 ```
   $ export TELEGRAM_TOKEN="YOUR_TELEGRAM_TOKEN"
+  $ export OWNER_USERNAME="YOUR_USERNAME"
   $ lein run
 ```
 
