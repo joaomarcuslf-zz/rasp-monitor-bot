@@ -1,6 +1,12 @@
 # Change Log
 
-## 1.0.3 - ON GOING
+## 1.0.5 - Break Change
+### Remove /command in favor of:
+- /ls
+- /shutdown
+- /reboot
+
+## 1.0.3 - Cancel
 ### Changed
 - Split the commands when executing
 
