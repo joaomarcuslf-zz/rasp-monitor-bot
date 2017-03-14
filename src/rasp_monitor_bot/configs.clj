@@ -14,8 +14,9 @@
   [
     {:name "/help",      :description "Will show the bot commands"}
     {:name "/hello",     :description "Will make the bot talk with you"}
-    {:name "/version",   :description "Will the bot version"}
+    {:name "/version",   :description "Will show the bot version"}
     {:name "/repo",      :description "Will show the project link"}
     {:name "/changelog", :description "Will send a changelog file"}
     {:name "/temp",      :description "Will show the actual raspberry temperature"}
+    {:name "/howru",     :description "Will make the bot respond with a gif"}
   ])

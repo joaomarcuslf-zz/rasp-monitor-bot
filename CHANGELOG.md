@@ -1,6 +1,8 @@
 # Change Log
 
-## 1.0.2 - ON GOING
+## 1.0.3 - ON GOING
+
+## 1.0.2 - 2017-03-14
 ### Added
 - Fix no output on /command
 
