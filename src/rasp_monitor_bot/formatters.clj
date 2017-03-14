@@ -16,7 +16,7 @@
 ;; /command
 (defn format-command
   [raw-command]
-  (str/split (str/replace (str/replace raw-command #"/command " "") "sudo " "")) #" ")
+  (str/replace (str/replace raw-command #"/command " "") "sudo " ""))
 
 ;; Will format command outpu
 ;; giving precedence to :out ove :err
