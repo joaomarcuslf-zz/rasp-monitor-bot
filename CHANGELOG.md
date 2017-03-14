@@ -1,10 +1,14 @@
 # Change Log
 
 ## 1.0.3 - ON GOING
+### Changed
+- Split the commands when executing
 
 ## 1.0.2 - 2017-03-14
 ### Added
 - Fix no output on /command
+### Changed
+- Updated /help commands
 
 ## 1.0.0 - 2017-03-11
 ### Added
