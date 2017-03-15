@@ -37,15 +37,19 @@
 			"cold-gif.gif"
 			"cool-gif.gif")))
 
+(defn is-owner
+  [username]
+  (= username configs/owner))
+
 ;; Will validate a command to run
 (defn command-runner
   ([username command]
-  (if (= username configs/owner)
+  (if (= (is-owner username))
         (str (formatters/format-output (clojure.java.shell/sh command)))
         ;; Logical False
         "You don't own me\nI'm not just one of your many toys"))
   ([username command & args]
-  (if (= username configs/owner)
+  (if (= (is-owner username))
         (str (formatters/format-output (apply clojure.java.shell/sh command args)))
         ;; Logical False
         "You don't own me\nI'm not just one of your many toys")))
