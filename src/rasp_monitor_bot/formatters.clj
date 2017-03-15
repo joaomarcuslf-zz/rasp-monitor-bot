@@ -18,7 +18,7 @@
   [raw-command]
   (str/replace (str/replace raw-command #"/command " "") "sudo " ""))
 
-;; Will format command outpu
+;; Will format command output
 ;; giving precedence to :out ove :err
 (defn format-output
   [command-output]
@@ -29,3 +29,8 @@
     (if (not (str/blank? err))
       err
       "No output given")))
+
+;; Will format command text
+(defn format-command-text
+  [user command]
+  (str user " gave me a command {" command "} in:"))

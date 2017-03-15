@@ -55,61 +55,45 @@
       (println (get chat :first_name) "asked for the project changelog in:" chat)
       (api/send-document configs/token id (io/file "CHANGELOG.md"))))
 
-  ;; TODO: Refactor Needed Start
+  ;; Will run {ls} shell command if user is valid
+  (handler/command-fn "list"
+    (fn [msg]
+      (def chat (get msg :chat))
+      (def username (get chat :username))
+      (def id (get chat :id))
+      (def command "ls")
+      (println (formatters/format-command-text (get chat :first_name) command) chat)
+      (api/send-text configs/token id (helpers/command-runner username "ls"))))
 
-    ;; Will run {ls} shell command if user is valid
-    (handler/command-fn "list"
-      (fn [msg]
-        (def chat (get msg :chat))
-        (def username (get chat :username))
-        (def id (get chat :id))
-        (println (get chat :first_name) "gave me a command {ls} in:" chat)
+  ;; Will run {shutdown} shell command if user is valid
+  (handler/command-fn "shutdown"
+    (fn [msg]
+      (def chat (get msg :chat))
+      (def username (get chat :username))
+      (def id (get chat :id))
+      (def command "shutdown")
+      (println (formatters/format-command-text (get chat :first_name) command) chat)
+      (api/send-text configs/token id (helpers/command-runner username "shutdown"))))
 
-        (api/send-text configs/token id (helpers/command-runner username "ls"))))
+  ;; Will run {shutdown -c} shell command if user is valid
+  (handler/command-fn "shutcancel"
+    (fn [msg]
+      (def chat (get msg :chat))
+      (def username (get chat :username))
+      (def id (get chat :id))
+      (def command "shutdown -c")
+      (println (formatters/format-command-text (get chat :first_name) command) chat)
+      (api/send-text configs/token id (helpers/command-runner username "shutdown" "-c"))))
 
-    ;; Will run {shutdown} shell command if user is valid
-    (handler/command-fn "shutdown"
-      (fn [msg]
-        (def chat (get msg :chat))
-        (def username (get chat :username))
-        (def id (get chat :id))
-        (println (get chat :first_name) "gave me a command {shutdown} in:" chat)
-
-        (api/send-text configs/token id
-          (if (= username configs/owner)
-            (str (formatters/format-output (sh "shutdown")))
-            ;; Logical False
-            "You don't own me\nI'm not just one of your many toys"))))
-
-    ;; Will run {shutdown -c} shell command if user is valid
-    (handler/command-fn "shutcancel"
-      (fn [msg]
-        (def chat (get msg :chat))
-        (def username (get chat :username))
-        (def id (get chat :id))
-        (println (get chat :first_name) "gave me a command {shutdown -c} in:" chat)
-
-        (api/send-text configs/token id
-          (if (= username configs/owner)
-            (str (formatters/format-output (sh "shutdown" "-c")))
-            ;; Logical False
-            "You don't own me\nI'm not just one of your many toys"))))
-
-    ;; Will run {reboot} shell command if user is valid
-    (handler/command-fn "reboot"
-      (fn [msg]
-        (def chat (get msg :chat))
-        (def username (get chat :username))
-        (def id (get chat :id))
-        (println (get chat :first_name) "gave me a command {reboot} in:" chat)
-
-        (api/send-text configs/token id
-          (if (= username configs/owner)
-            (str (formatters/format-output (sh "reboot")))
-            ;; Logical False
-            "You don't own me\nI'm not just one of your many toys"))))
-
-  ;; TODO: Refactor Needed End
+  ;; Will run {reboot} shell command if user is valid
+  (handler/command-fn "reboot"
+    (fn [msg]
+      (def chat (get msg :chat))
+      (def username (get chat :username))
+      (def id (get chat :id))
+      (def command "reboot")
+      (println (formatters/format-command-text (get chat :first_name) command) chat)
+      (api/send-text configs/token id (helpers/command-runner username "reboot"))))
 
   ;; Will send the raspberry
   (handler/command-fn "temp"
