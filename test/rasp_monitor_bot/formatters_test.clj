@@ -23,3 +23,11 @@
 (deftest format-output-t2
   (testing "format-output, Should format an command output, when a out is given."
     (is (= "test" (formatters/format-output { :out "test" })))))
+
+(deftest format-output-t3
+  (testing "format-output, Should send a default output, when none is given."
+    (is (= "No output given" (formatters/format-output {})))))
+
+(deftest format-command-text-test
+  (testing "format-command-text, Should format an command text."
+    (is (= "user gave me a command {mocked} in:" (formatters/format-command-text "user" "mocked")))))

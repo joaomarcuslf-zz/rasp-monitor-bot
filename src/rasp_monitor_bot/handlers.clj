@@ -5,7 +5,6 @@
 		[clojure.java.io :as io]
 		[clojure.string :as str]
 		[morse.api :as api]
-		[clojure.java.shell :refer [sh]]
 		[rasp-monitor-bot.formatters :as formatters]
 		[rasp-monitor-bot.helpers :as helpers]
 		[rasp-monitor-bot.configs :as configs])

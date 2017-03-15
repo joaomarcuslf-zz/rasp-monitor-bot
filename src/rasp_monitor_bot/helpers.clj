@@ -2,6 +2,7 @@
   (:require
 		[clojure.java.io :as io]
 		[clojure.string :as str]
+    [clojure.java.shell :refer [sh]]
     [rasp-monitor-bot.formatters :as formatters]
     [rasp-monitor-bot.configs :as configs])
   (:gen-class))
