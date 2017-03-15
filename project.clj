@@ -1,4 +1,4 @@
-(defproject rasp-monitor-bot "1.0.5"
+(defproject rasp-monitor-bot "1.1.2"
   :description "Small Telegram Bot to monitor my Raspberry Pi"
   :url "https://github.com/joaomarcuslf/rasp-monitor-bot"
 
