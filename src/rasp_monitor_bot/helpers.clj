@@ -1,7 +1,9 @@
 (ns rasp-monitor-bot.helpers
   (:require
 		[clojure.java.io :as io]
-		[clojure.string :as str])
+		[clojure.string :as str]
+    [rasp-monitor-bot.formatters :as formatters]
+    [rasp-monitor-bot.configs :as configs])
   (:gen-class))
 
 ;; Will greet the user
@@ -34,3 +36,16 @@
 		(if (< temp 50)
 			"cold-gif.gif"
 			"cool-gif.gif")))
+
+;; Will validate a command to run
+(defn command-runner
+  ([username command]
+  (if (= username configs/owner)
+        (str (formatters/format-output (clojure.java.shell/sh command)))
+        ;; Logical False
+        "You don't own me\nI'm not just one of your many toys"))
+  ([username command & args]
+  (if (= username configs/owner)
+        (str (formatters/format-output (apply clojure.java.shell/sh command args)))
+        ;; Logical False
+        "You don't own me\nI'm not just one of your many toys")))

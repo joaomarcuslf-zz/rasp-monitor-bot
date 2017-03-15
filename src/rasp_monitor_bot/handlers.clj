@@ -65,11 +65,7 @@
         (def id (get chat :id))
         (println (get chat :first_name) "gave me a command {ls} in:" chat)
 
-        (api/send-text configs/token id
-          (if (= username configs/owner)
-            (str (formatters/format-output (sh "ls")))
-            ;; Logical False
-            "You don't own me\nI'm not just one of your many toys"))))
+        (api/send-text configs/token id (helpers/command-runner username "ls"))))
 
     ;; Will run {shutdown} shell command if user is valid
     (handler/command-fn "shutdown"
