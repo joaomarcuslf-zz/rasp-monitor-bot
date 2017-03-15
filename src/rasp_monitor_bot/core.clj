@@ -9,10 +9,10 @@
 (defn -main
   [& args]
   (when (str/blank? configs/token)
-    (println "Please provde configs/token in TELEGRAM_configs/token environment variable!")
+    (println "Please provide configs/token in TELEGRAM_configs/token environment variable!")
     (System/exit 1))
   (when (str/blank? configs/owner)
-    (println "Please provde configs/token in OWNER_USERNAME environment variable!")
+    (println "Please provide configs/token in OWNER_USERNAME environment variable!")
     (System/exit 1))
 
   (println "Starting the rasp-monitor-bot")
