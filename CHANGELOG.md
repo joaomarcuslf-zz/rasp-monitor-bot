@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.1.2 - ON GOING
+### Fix
+- Commands authorization(is-owner)
+### Changed
+- Added tests
+- Refactor all commands
+
 ## 1.0.5 - Break Change
 ### Remove /command in favor of:
 - /ls
