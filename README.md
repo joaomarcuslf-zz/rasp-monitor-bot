@@ -2,6 +2,8 @@
 
 Small Telegram Bot to monitor my Raspberry Pi
 
+[![Build Status](https://travis-ci.org/joaomarcuslf/rasp-monitor-bot.svg?branch=master)](https://travis-ci.org/joaomarcuslf/rasp-monitor-bot)
+
 ## Usage
 
 ```
