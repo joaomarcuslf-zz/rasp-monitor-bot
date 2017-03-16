@@ -16,10 +16,6 @@
   (testing "parse-int, Should parse string to integer."
     (is (= 1000 (helpers/parse-int int-mock)))))
 
-(deftest get-temp-test
-  (testing "get-temp, Should get a float number."
-    (is (= java.lang.Float (type (helpers/get-temp))))))
-
 (deftest temp-to-celsius-test
   (testing "temp-to-celsius, Should transform temp on celcius string."
     (is (= "50 ºC" (helpers/temp-to-celsius 50)))))
