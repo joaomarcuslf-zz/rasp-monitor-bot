@@ -1,6 +1,4 @@
 language: clojure
 lein: lein1
-before_install:
-  - lein1 bootstrap
 script:
   - lein test
