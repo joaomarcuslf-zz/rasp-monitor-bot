@@ -1,5 +1,4 @@
 language: clojure
-install: lein protobuf install
 lein: lein1
 before_install:
   - lein1 bootstrap
