@@ -94,7 +94,20 @@
       (println (formatters/format-command-text (get chat :first_name) command) chat)
       (api/send-text configs/token id (helpers/command-runner username "reboot"))))
 
-  ;; Will send the raspberry
+   ;; Will stop the bot
+  (handler/command-fn "stop"
+    (fn [msg]
+      (def chat (get msg :chat))
+      (def username (get chat :username))
+      (def id (get chat :id))
+      (if (helpers/is-owner username)
+        (
+          (api/send-text configs/token id "Bye bye now!")
+          (System/exit 1))
+        ;; Logical False
+        "You don't own me\nI'm not just one of your many toys")))
+
+ ;; Will send the raspberry
   (handler/command-fn "temp"
     (fn [{{id :id :as chat} :chat}]
       (println (get chat :first_name) "asked for my temp in:" chat)
